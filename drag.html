@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style type="text/css">
+* {
+        margin: 0;
+        padding: 0;
+   }
+#div1 {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        cursor: move;
+        background-color: red;
+    }
+
+}
+</style>
+<script type="text/javascript">
+window.onload = function () {
+    var div1 = document.getElementById("div1");//获取拖动元素
+    div1.onmousedown = function (evt) {//鼠标按下事件
+        var oEvent = evt || event;
+        var distanceX = oEvent.clientX - div1.offsetLeft;//clientX表示鼠标指针的坐标
+        var distanceY = oEvent.clientY - div1.offsetTop;//offsetTop获取元素距离上面的位置，返回的是数字
+        document.onmousemove = function (evt) {//鼠标移动事件
+            var oEvent = evt || event;
+            var left = oEvent.clientX - distanceX;//获取拖动是元素的位置
+            var top = oEvent.clientY - distanceY;
+            if (left <= 0) {//防止越过浏览器左边缘
+                left = 0;
+            }
+            else if (left >= document.documentElement.clientWidth - div1.offsetWidth) {//防止越过右边缘
+                left = document.documentElement.clientWidth - div1.offsetWidth;
+            }
+            if (top <= 0) {
+                top = 0;
+            }
+            else if (top >= document.documentElement.clientHeight - div1.offsetHeight) {
+                top = document.documentElement.clientHeight - div1.offsetHeight;
+            }
+            div1.style.top = top + "px";//重新设置元素位置
+            div1.style.left = left + "px";
+        }
+        div1.onmouseup = function () {//鼠标抬起事件
+            document.onmousemove = null;//清除鼠标按下事件
+            div1.onmouseup = null;
+        }
+    }
+}
+
+</script>
+<title>Insert title here</title>
+</head>
+<body>
+<div id="div1">
+</div>
+
+</body>
+</html>
